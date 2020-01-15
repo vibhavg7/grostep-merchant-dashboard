@@ -1,0 +1,20 @@
+<button class="btn btn-primary mr-3" (click)="backClicked()">
+    <i class='fa fa-chevron-left'></i> Back
+</button>
+<div *ngFor="let storeOrder of storeOrders">
+    <br>
+    <div [routerLink]="['/orders/info']" [queryParams]="{ order: storeOrder?.order_id }" style="cursor:pointer;" class="card bg-light text-dark">
+        <div class="card-body">
+            <p class="card-title">Order Id : {{storeOrder?.order_id}}</p>
+            <p class="card-text">Store Name : {{storeOrder?.store_name}}</p>
+            <p class="card-text">Date : {{storeOrder?.order_placing_date | date:'short'}}</p>
+            <p class="card-text">Total Items : {{storeOrder?.total_item_count}}</p>
+        </div>
+    </div>
+</div>
+<div class="card bg-danger text-dark" *ngIf="store_order_total_count ==0">
+    <div class="card-body">
+        No Orders Found
+    </div>
+</div>
+<app-pagination *ngIf='store_order_total_count' [pagesize]="pageSize" [totalItemCount]="store_order_total_count" (currentPage)="currentPageFn($event)"></app-pagination>

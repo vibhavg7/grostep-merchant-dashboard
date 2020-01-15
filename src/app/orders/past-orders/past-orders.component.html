@@ -1,0 +1,33 @@
+<!-- *ngIf="!orderIdSelected" -->
+<div>
+      <span style="font-weight: bold;padding:10px 0px 0px 10px">
+        Total Orders Count: {{storeordertotalcount}}
+      </span>
+        <div *ngFor="let storeOrder of storeOrders">
+                <br>
+                <div (click)="orderSelected(storeOrder?.order_id)" style="cursor:pointer;" class="card bg-info text-white">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <span>Order Id : {{storeOrder?.order_id}}</span>
+                            <span style="float:right;font-weight:bold;">
+                                {{storeOrder?.order_status | uppercase}}
+                            </span>
+                        </div>
+                        <p class="card-text">Store Name : {{storeOrder?.store_name}}</p>
+                        <p class="card-text">Date : {{storeOrder?.order_placing_date | date:'short'}}</p>
+                        <p class="card-text">Total Items : {{storeOrder?.total_item_count}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card bg-danger text-dark" *ngIf="store_order_total_count ==0">
+                <div class="card-body">
+                    No Orders Found
+                </div>
+            </div>
+            <app-pagination *ngIf='storeordertotalcount' [pagesize]="pageSize" [totalItemCount]="storeordertotalcount" (currentPage)="currentPageFn($event)"></app-pagination>
+</div>
+
+
+<!-- <div *ngIf="orderIdSelected">
+    <app-order-product-info></app-order-product-info>
+</div> -->

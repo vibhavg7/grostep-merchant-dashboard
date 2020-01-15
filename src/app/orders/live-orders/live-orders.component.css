@@ -1,0 +1,13 @@
+#count {
+    border: 1px solid red;
+    padding: 2px;
+    /* margin:10px; */
+    border-radius: 40px;
+    float:right;
+  }
+  
+
+  .order
+  {
+    cursor: pointer;
+  }

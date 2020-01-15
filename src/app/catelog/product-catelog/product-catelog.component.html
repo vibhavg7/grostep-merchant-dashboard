@@ -1,0 +1,84 @@
+<div class='card'>
+        <div class='card-body'>
+           <div class="row">
+                <div class='col-md-2'>Filter by:</div>
+                <div class='col-md-4'>
+                    <form [formGroup]="searchCriteriaForm">
+                        <input formControlName="searchCriteria" (keyup)="onChanges()"
+                            class="form-control" type="text" id="keyword" placeholder="Search Merchant Product By Name"
+                            autocomplete="off" autofocus/>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-outline-secondary" style="float:right" [routerLink]="['merchantproducts',0,'edit']">
+                        Add New Store Product
+                    </button>
+                </div>
+            </div>
+            <div class='table-responsive' *ngIf='storeproductscount'>
+                <table  class='table' *ngIf='storeproductscount'>
+                    <thead>
+                        <tr>
+                            <th>
+
+                            </th>
+                            <th style="width:90px !important">Name</th>
+                            <th>MP</th>
+                            <th>CP</th>
+                            <th>SP</th>
+                            <th>Discount</th>
+                            <th>Store Margin</th>
+                            <th>Stock</th>
+                            <th>Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor='let store_product of storeproductsinfo'>
+                            <td>
+                                <img *ngIf="!store_product.image_url" class='center-block img-responsive' src='assets/product_images/default_image.jpg' [title]='store_product?.product_name'
+                                    [style.width.px]='80' [style.margin.px]='0'>
+                                <img *ngIf="store_product.image_url" class='center-block img-responsive'
+                                    src='{{store_product.image_url}}' [title]='store_product?.product_name'
+                                    [style.width.px]='80' [style.margin.px]='0'>
+                            </td>
+                            <td>
+                                <a>{{ store_product?.product_name }}</a>
+                            </td>
+                            <td>
+                                <i class="fas fa-rupee-sign"></i> Rs{{ store_product?.product_marked_price }}</td>
+                            <td>
+                                <i class="fas fa-rupee-sign"></i> Rs{{ store_product?.store_cost_price }}</td>
+                            <td>
+                                <i class="fas fa-rupee-sign"></i> Rs{{ store_product?.store_selling_price }}</td>
+                            <td>
+                                {{ store_product?.store_discount }}%
+                            </td>
+                            <td>
+                                {{ store_product?.store_margin }}%
+                            </td>
+
+                            <td>
+                                <input class="stockcheckbox" type="checkbox" value="{{store_product.stock}}" name="{{store_product.store_product_mapping_id}}"
+                                    [checked]="(store_product.stock ? 'checked' : '')">
+                                    <!-- (change)="updateProductStock($event,store_product.store_product_mapping_id)"> -->
+                            </td>
+                            <td>
+                                <button class="btn btn-outline-secondary" [routerLink]="['merchantproducts',store_product.store_product_mapping_id,'edit']">Edit</button>
+                                <!-- <button class="btn btn-outline-secondary" style="margin-left:5px" (click)="deleteStoreProduct(store_product.store_product_mapping_id)">
+                                        Delete
+                                </button> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <app-pagination *ngIf='storeproductscount' [pagesize]="pageSize" [totalItemCount]="storeproductscount" (currentPage)="currentPageFn($event)"></app-pagination>
+            </div>
+            <div *ngIf='storeproductscount == 0'>
+                No Products in store catalog
+            </div>
+
+        </div>
+    </div>
+    <div *ngIf='errorMessage' class='alert alert-danger'>
+        Error: {{ errorMessage }}
+    </div>
